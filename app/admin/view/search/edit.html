@@ -1,0 +1,41 @@
+<!--包含头部文件-->
+{include file="public/head" /}
+<div class="cl pd-5 bg-1 bk-gray mt-20"> 详细内容</div>
+<article class="page-container">
+  <form class="form form-horizontal" id="form-article-add" method="post" action="{:url('search/edit')}" enctype="multipart/form-data" >
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2">关键词：</label>
+      <div class="formControls col-xs-8 col-sm-6">
+        <input type="text" class="input-text" value="{$searchData.name}"  name="name">
+        <input type="hidden" class="input-text" value="{$searchData.id}"  name="id">
+      </div>
+    </div>
+    
+    <div class="row cl">
+
+      <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+
+        <button  type="submit" class="btn btn-primary radius" ><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+
+        <button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+   
+  </form>
+</article>
+
+<!--包含头部文件-->
+{include file="public/foot" /}
+
+</body>
+</html>

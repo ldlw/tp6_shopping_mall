@@ -1,0 +1,77 @@
+<!--包含头部文件-->
+
+{include file="public/head" /}
+
+<body>
+
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 发票列表 </nav>
+
+<div class="page-container">
+
+
+
+	<div class="mt-20">
+
+			<table class="table table-border table-bordered table-bg table-hover table-sort mt-20">
+
+				<thead>
+
+					<tr class="text-c">
+
+						<th width="50">ID</th>
+
+						<th width="250">公司名称</th>
+						<th width="250">纳税人识别号</th>
+						<th width="250">金额</th>
+						<th width="250">收票邮箱</th>
+						<th width="250">申请日期</th>
+						<th width="250">状态</th>						
+						<th width="50">操作</th>
+
+					</tr>
+
+				</thead>
+
+				<tbody>
+
+					{volist name="fapiaoData" id="vo"}
+
+					<tr class="text-c">
+
+						<td>{$vo.id}</td>
+
+						<td>{$vo.company}</td>
+
+						<td>{$vo.code}</td>
+						<td>{$vo.money}</td>
+						<td>{$vo.email}</td>
+						<td>{$vo.time}</td>
+						<td>
+							{if condition="$vo.status eq 0"}
+								<a href="{:url('base/status',array('id'=>$vo.id,'status'=>1,'dbname'=>'fapiao'))}" style="color: #f00;">未开具</a>
+								{else/}
+								<span style="color: #009688;">已开具</span>
+							{/if}
+						</td>
+						<td class="td-manage"><a style="text-decoration:none" class="ml-5" href="{:url('fapiao/edit',array('id'=>$vo.id))}" title="修改"><i class="Hui-iconfont">&#xe665;</i></a><a style="text-decoration:none" class="ml-5" onclick="delete_confirm('{:url('fapiao/del',array('id'=>$vo.id,'dbname'=>'fapiao'))}')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+
+					</tr>
+
+					{/volist}
+
+					
+
+				</tbody>
+
+			</table>
+
+			{$fapiaoData|raw}
+
+	</div>
+
+</div>
+
+<!--包含头部文件-->
+
+{include file="public/foot" /}
+

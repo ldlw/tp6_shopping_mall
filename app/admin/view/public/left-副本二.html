@@ -1,0 +1,74 @@
+<!-- 图标http://lib.h-ui.net/Hui-iconfont/1.0.7/demo.html -->
+
+<aside class="Hui-aside">
+
+	<div class="menu_dropdown bk_2">
+
+
+
+		{volist name="$authRuleMenuData" id="vo"}
+		{php}
+			if(in_array($vo['id'],$rulesArr)){
+		{/php}
+		<dl id="menu-article">
+
+			<dt class="selected"><i class="Hui-iconfont">{$vo.icon|raw}</i> {$vo.title}<i class="Hui-iconfont menu_dropdown-arrow"></i>
+			</dt>
+
+			<dd style="display: block;">
+
+				<ul>
+					<li><a data-href="admin\{$vo.name}" data-title="{$vo.title}" href="javascript:void(0)">{$vo.title}</a>
+					</li>
+					{volist name="$vo.children" id="vo1"}
+					{php}
+						if(in_array($vo1['id'],$rulesArr)){{/php}
+					<li><a data-href="admin\{$vo1.name}" data-title="{$vo1.title}" href="javascript:void(0)">{$vo1.title}</a>
+					</li>
+					{php}}{/php}
+					{/volist}
+
+				</ul>
+
+			</dd>
+
+
+		</dl>
+		{php}}{/php}
+
+		{/volist}
+
+
+
+
+
+
+		<dl id="menu-admin">
+
+			<dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+
+			<dd>
+
+				<ul>
+
+
+					<li><a data-href="{:url('AuthGroup/index')}" data-title="用户组管理" href="javascript:void(0)">用户组管理</a>
+					</li>
+
+					<li><a data-href="{:url('Authrule/index')}" data-title="权限管理" href="javascript:void(0)">权限管理</a>
+					</li>
+
+					<li><a data-href="{:url('admin/index')}" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
+
+				</ul>
+
+			</dd>
+
+		</dl>
+
+
+
+
+	</div>
+
+</aside>

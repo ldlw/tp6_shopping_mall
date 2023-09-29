@@ -1,0 +1,114 @@
+<!--包含头部文件-->
+
+{include file="public/head" /}
+
+<div class="cl pd-5 bg-1 bk-gray mt-20"> 修改</div>
+
+<article class="page-container">
+
+  <form class="form form-horizontal" id="form-article-add" method="post" action="{:url('flink/update')}" enctype="multipart/form-data" >
+
+    <div class="row cl">
+
+      <label class="form-label col-xs-4 col-sm-2">公司名称：</label>
+
+      <div class="formControls col-xs-8 col-sm-6">
+
+        <input type="text" class="input-text" value="{$fapiaoData.company}" disabled='true'>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="row cl">
+
+      <label class="form-label col-xs-4 col-sm-2">纳税人识别号：</label>
+
+      <div class="formControls col-xs-8 col-sm-6">
+
+        <input type="text" class="input-text" value="{$fapiaoData.code}" disabled='true'>
+
+      </div>
+
+    </div>
+
+   
+    <div class="row cl">
+
+      <label class="form-label col-xs-4 col-sm-2">金额：</label>
+
+      <div class="formControls col-xs-8 col-sm-6">
+
+        <input type="text" class="input-text" value="{$fapiaoData.money}" disabled='true'>
+
+      </div>
+
+    </div>
+
+ 
+    <div class="row cl">
+
+      <label class="form-label col-xs-4 col-sm-2">接收发票邮箱：</label>
+
+      <div class="formControls col-xs-8 col-sm-6">
+
+        <input type="text" class="input-text" value="{$fapiaoData.email}" disabled='true'>
+
+      </div>
+
+    </div>
+
+    <div class="row cl">
+
+      <label class="form-label col-xs-4 col-sm-2">备注：</label>
+
+      <div class="formControls col-xs-8 col-sm-6">
+
+        <input type="text" class="input-text" value="{$fapiaoData.beizhu}" disabled='true'>
+
+      </div>
+
+    </div>
+
+    <div class="row cl">
+
+      <label class="form-label col-xs-4 col-sm-2">申请时间：</label>
+
+      <div class="formControls col-xs-8 col-sm-6">
+
+        <input type="text" class="input-text" value="{$fapiaoData.time|date='Y-m-d'}" disabled='true'>
+
+      </div>
+
+    </div>
+
+    <div class="row cl">
+
+      <label class="form-label col-xs-4 col-sm-2">发票状态：</label>
+
+      <div class="formControls col-xs-8 col-sm-6">
+
+        <input type="text" class="input-text" value="{if condition='$fapiaoData["status"] eq 1'}已开具{else/}未开具{/if}" disabled='true'>
+
+      </div>
+
+    </div>
+
+
+  </form>
+
+</article>
+
+
+
+<!--包含头部文件-->
+
+{include file="public/foot" /}
+
+
+
+</body>
+
+</html>

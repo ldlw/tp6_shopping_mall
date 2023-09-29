@@ -1,0 +1,308 @@
+<!-- 引入图片上传文件开始-->
+
+<link href="/static/admin/lib/webuploader/webuploader.css" rel="stylesheet">
+
+<link href="/static/index/css/font-awesome.min.css" rel="stylesheet">
+
+<script type="text/javascript" src="/static/admin/lib/webuploader/webuploader.js"></script>
+
+<style>
+
+    .webuploader-pick {
+
+        padding: 5px 15px;
+
+    }
+
+
+
+</style>
+
+<div class="row cl">
+
+    <label class="form-label col-xs-4 col-sm-2">上传图片：</label>
+
+    <div id="uploader-demo" class="formControls col-xs-8 col-sm-8">
+
+        <div id="fileList" class="uploader-list">
+
+            {if condition="$image"}
+
+                {volist name="image" id="vo"}
+
+                     <div id="WU_FILE_{$key}0" class="file-item thumbnail upload-state-done" >
+
+                        <img src="{$vo.image}" style="width:120px;height: 120px;"/>
+
+                        <div class="info"><span onclick='removefile("WU_FILE_{$key}0")'><i class="fa fa-trash-o fa-lg"></i></span><span onclick="prevpic(this)"><i class="fa fa-arrow-left fa-lg"></i></span><span onclick="nextpic(this)"><i class="fa fa-arrow-right fa-lg"></i></span></div>
+
+                        <input type="hidden" value="{$vo.image}" name="image[]">
+
+                    </div>
+
+                {/volist}
+
+            {/if}
+
+        </div>
+
+        <div id="filePicker">点击上传</div><br><br><div class="tishi">提示：第一张图将作为封面图展示</div>
+
+    </div>
+
+    <script>
+
+        jQuery(function () {
+
+            var $ = jQuery,
+
+                    $list = $('#fileList'),
+
+                    // 优化retina, 在retina下这个值是2
+
+                    ratio = window.devicePixelRatio || 1,
+
+
+
+                    // 缩略图大小
+
+                    thumbnailWidth = 120 * ratio,
+
+                    thumbnailHeight = 120 * ratio,
+
+
+
+                    // Web Uploader实例
+
+                    uploader;
+
+
+
+            // 初始化Web Uploader
+
+            uploader = WebUploader.create({
+
+
+
+                // 自动上传。
+
+                auto: true,
+
+
+
+                // swf文件路径
+
+                swf: '/static/lib/webuploader/Uploader.swf',
+
+
+
+
+
+                // 文件接收服务端。
+
+
+
+                server: '/index.php/admin/uploader/upload',
+
+
+
+                // 选择文件的按钮。可选。
+
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+
+                pick: '#filePicker',
+
+                duplicate :true,
+
+                accept: {
+
+                    title: 'Images',
+
+                    extensions: 'jpg,jpeg,png',
+
+                    mimeTypes: 'image/jpg,image/jpeg,image/png'   //修改这行
+
+                }
+
+            });
+
+
+
+            // 当有文件添加进来的时候
+
+            uploader.on('fileQueued', function (file) {
+
+                var $li = $(
+
+                                '<div id="' + file.id + '" class="file-item thumbnail">' +
+
+                                '<img>' +
+
+                                '<div class="info" ><span  onclick="removefile(\'' +file.id+ '\')"><i class="fa fa-trash-o fa-lg"></i></span><span onclick="prevpic(this)"><i class="fa fa-arrow-left fa-lg"></i></span><span onclick="nextpic(this)"><i class="fa fa-arrow-right fa-lg"></i></span></div>' +
+
+                                '</div>'
+
+                        ),
+
+                        $img = $li.find('img');
+
+                console.log($li);
+
+                $list.append($li);
+
+
+
+                // 创建缩略图
+
+                uploader.makeThumb(file, function (error, src) {
+
+                    if (error) {
+
+                        $img.replaceWith('<span>不能预览</span>');
+
+                        return;
+
+                    }
+
+                    $img.attr('src', src);
+
+                }, thumbnailWidth, thumbnailHeight);
+
+            });
+
+
+
+            // 文件上传过程中创建进度条实时显示。
+
+            uploader.on('uploadProgress', function (file, percentage) {
+
+                var $li = $('#' + file.id), $percent = $li.find('.progress span');
+
+
+
+                // 避免重复创建
+
+                if (!$percent.length) {
+
+                    $percent = $('<p class="progress"><span></span></p>').appendTo($li).find('span');
+
+                }
+
+                $percent.css('width', percentage * 100 + '%');
+
+            });
+
+
+
+            // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+
+            uploader.on('uploadSuccess', function (file,response) {
+
+                //alert(JSON.stringify(response));
+
+                $('#' + file.id).addClass('upload-state-done');
+
+                var n = '<input type="hidden" value="'+ response.path +'" name="image[]">';
+
+                $('#' + file.id).append(n);
+
+
+
+            });
+
+
+
+            // 文件上传失败，现实上传出错。
+
+            uploader.on('uploadError', function (file) {
+
+                var $li = $('#' + file.id),
+
+                        $error = $li.find('div.error');
+
+
+
+                // 避免重复创建
+
+                if (!$error.length) {
+
+                    $error = $('<div class="error"></div>').appendTo($li);
+
+                }
+
+
+
+                $error.text('上传失败');
+
+            });
+
+
+
+            // 完成上传完了，成功或者失败，先删除进度条。
+
+            uploader.on('uploadComplete', function (file) {
+
+                $('#' + file.id).find('.progress').remove();
+
+            });
+
+        });
+
+        function removefile(id) {
+
+            var cover = $('#'+id+'').find('input').val();
+
+            var url = "/admin/uploader/remove_goods_pic.html";
+
+            //询问框
+
+            layer.confirm('是否删除？', {
+
+                btn: ['确定','取消'] //按钮
+
+            }, function(){
+
+                $.post(url, {cover:cover}, function (a) {
+
+                    //弹出提示消息
+
+                    if (a.status) { layer.msg(a.info, {icon: 1})
+
+                        $('#'+id+'').remove();
+
+                        layer.msg(a.info, {icon: 1})
+
+                    } else {
+
+                        layer.msg(a.info, {icon: 2})
+
+                    }
+
+                });
+
+            }, function(){
+
+                layer.close();
+
+            });
+
+        };
+
+        function nextpic(a){
+            var current = $(a).parent().parent();
+            var next = $(a).parent().parent().next();
+            next.after(current);
+        }
+        function prevpic(a){
+            var current = $(a).parent().parent();
+            var prev = $(a).parent().parent().prev();
+            current.after(prev);
+        }
+    </script>
+
+    
+
+</div>
+
+<!-- 引入图片上传文件结束-->
+

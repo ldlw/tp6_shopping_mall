@@ -1,0 +1,37 @@
+<!--包含头部文件-->
+{include file="public/head" /}
+<div class="cl pd-5 bg-1 bk-gray mt-20"> 修改</div>
+<article class="page-container">
+  <form class="form form-horizontal" id="form-article-add" method="post" action="{:url('flink/update')}" enctype="multipart/form-data" >
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2">名称：</label>
+      <div class="formControls col-xs-8 col-sm-6">
+        <input type="text" class="input-text" value="{$flinkData.name}" placeholder="" id="" name="name">
+        <input type="hidden" class="input-text" value="{$flinkData.id}" placeholder="" id="" name="id">
+      </div>
+    </div>
+
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2">链接：</label>
+      <div class="formControls col-xs-8 col-sm-6">
+        <input type="text" class="input-text" value="{$flinkData.url}" placeholder="" id="" name="url">
+      </div>
+    </div>
+
+    <div class="row cl">
+      <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+        <button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 提交</button>
+      </div>
+    </div>
+  </form>
+</article>
+<script>
+  /**定义页面全局变量**/
+  var SCOPE = {};
+
+</script>
+<!--包含头部文件-->
+{include file="public/foot" /}
+
+</body>
+</html>
